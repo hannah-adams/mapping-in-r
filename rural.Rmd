@@ -1,0 +1,61 @@
+---
+title: "rural.Rmd"
+output: html_document
+date: '2022-06-30'
+---
+
+In this page, I'm making a map about the rural geography of the US.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tidycensus)
+library(ggthemes)
+library(tigris)
+```
+
+```{r cleaning_data}
+rural <- get_decennial(
+  geography="state",
+  variables=c("P001001","P002005"),
+  year=2010,
+  output="wide",
+  geometry=TRUE
+)
+```
+
+```{r map}
+rural |>  
+  ggplot() +
+  geom_sf()
+```
+
+```{r map_fewer}
+rural |>  
+  # there has to be a better way to use filter, right?
+  filter(NAME != "Alaska",
+         NAME != "Hawaii",
+         NAME != "Puerto Rico") |> 
+  ggplot(aes(fill = (P002005 / P001001)*100)) +
+  geom_sf() +
+  scale_fill_viridis_c(option="plasma", direction = -1) +
+  labs(title="Rural geography of the United States",
+      fill="Percent rural",
+      caption="Source: Census 2010") +
+  theme_void()
+
+```
+
+
+```{r}
+rural |>  
+  shift_geometry() |> 
+  ggplot(aes(fill = (P002005 / P001001)*100)) +
+  geom_sf() +
+  scale_fill_viridis_c(option="plasma", direction = -1) +
+  labs(title="Rural geography of the United States",
+      fill="Percent rural",
+      caption="Source: Census 2010") +
+  theme_void()
+```
+

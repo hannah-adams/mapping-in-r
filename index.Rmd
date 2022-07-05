@@ -1,0 +1,15 @@
+---
+title: "index.Rmd"
+output: html_document
+date: '2022-06-30'
+---
+
+Hi! I'm Hannah. This is a tutorial exercise. We are using Census Bureau data.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tidycensus)
+library(ggthemes)
+library(tigris)
+```
