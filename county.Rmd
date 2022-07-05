@@ -1,0 +1,51 @@
+---
+title: "county.Rmd"
+output: html_document
+date: '2022-07-05'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tidycensus)
+library(ggthemes)
+library(tigris)
+```
+
+We're making a map about the racial demographics of Harris County, Texas.
+
+```{r}
+load_variables(2018, "acs5") |> filter(concept=="RACE")
+# saving the names of variables related to race, in this order
+# white, Black, Asian, Hispanic
+# weird that we are just choosing these four and ignoring people who are biracial
+racevars <- c(White="B02001_002", 
+              Black="B02001_003", 
+              Asian="B02001_005", 
+              Hispanic="B03003_003")
+```
+
+```{r access_census_data}
+county_data <- get_acs(geography = "tract",
+        variables = racevars,
+        year = 2018, 
+        state = "Illinois",
+        county = "Cook",
+        geometry = TRUE,
+        summary_var = "B02001_001") |> 
+    mutate(Percent = estimate/summary_est * 100)
+```
+
+```{r map}
+county_data |> 
+  ggplot(aes(fill=Percent,
+         color = Percent)) +
+  facet_wrap(~variable) + 
+  scale_fill_viridis_c(direction=-1)+
+  scale_color_viridis_c(direction=-1)+
+  theme_void() + 
+  labs(title="Racial geography of Cook County, IL",
+       caption = "Source: American Community Survey 2014-2018") +
+  geom_sf()
+```
+

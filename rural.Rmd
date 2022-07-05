@@ -48,7 +48,7 @@ rural |>
 
 
 ```{r}
-rural |>  
+rural_shifted <- rural |>  
   shift_geometry() |> 
   ggplot(aes(fill = (P002005 / P001001)*100)) +
   geom_sf() +
@@ -57,5 +57,9 @@ rural |>
       fill="Percent rural",
       caption="Source: Census 2010") +
   theme_void()
+```
+
+```{r}
+rural_shifted
 ```
 
