@@ -40,8 +40,11 @@ races_graph <- races |>
        caption = "Source: American Community Survey 2014-2018")
 ```
 
-```{r rds}
+```{r make_rds}
 write_rds(x=races_graph, "races_map.rds")
 ```
 
+```{r}
+read_rds("races_map.rds")
+```
 
