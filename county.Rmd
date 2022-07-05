@@ -12,7 +12,7 @@ library(ggthemes)
 library(tigris)
 ```
 
-We're making a map about the racial demographics of Harris County, Texas.
+We're making a map about the racial demographics of my home county.
 
 ```{r}
 load_variables(2018, "acs5") |> filter(concept=="RACE")
