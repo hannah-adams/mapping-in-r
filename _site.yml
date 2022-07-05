@@ -1,0 +1,23 @@
+name: mapping-in-r
+output_dir: "."
+navbar:
+  title: "Mapping Demonstration"
+  left:
+    - text: "Home"
+      href:index.html
+    - text: "Racial demographics""
+      href: county.html
+    - text: "Percentage of people who identify with 2+ races"
+      href: tworaces.html
+    - text: "Percent of seniors"
+      href: senior.html
+    - text: "Sources"
+      menu:
+      - text: "Decennial Census"
+        href: source1.html
+      - text: "American Community Survey"
+        href: source2.html
+output:
+  html_document:
+    theme: cosmo
+      
