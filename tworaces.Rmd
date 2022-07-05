@@ -48,3 +48,6 @@ write_rds(x=races_graph, "races_map.rds")
 read_rds("races_map.rds")
 ```
 
+```{r rds}
+write_rds(x=races_graph, "races_map.rds")
+```
