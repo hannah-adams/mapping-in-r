@@ -1,0 +1,51 @@
+---
+title: "senior.Rmd"
+output: html_document
+date: '2022-07-05'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tidycensus)
+library(ggthemes)
+library(tigris)
+```
+
+```{r}
+glimpse(pums_variables)
+```
+
+```{r cleaning}
+nw_states <- c("OR", "WA", "ID")
+
+nw_pums <- get_pums(variables=c("AGEP", "PUMA"),
+         state=nw_states,
+         recode=TRUE,
+         survey="acs1",
+         year=2018)
+
+nw_Senior <- nw_pums |> 
+  group_by(ST, PUMA) |> 
+  summarize(total_pop = sum(PWGTP),
+            pct_Senior = (sum(PWGTP[AGEP>64]))/total_pop, 
+            .groups="drop")
+
+nw_pumas <- map(nw_states, tigris::pumas, class="sf", cb=TRUE, year=2018) |> reduce(rbind)
+
+nw_final <- nw_pumas |> 
+  left_join(nw_Senior, by = c(STATEFP10 = "ST", PUMACE10 = "PUMA"))
+```
+
+```{r}
+nw_final |> 
+  ggplot(aes(fill=pct_Senior)) +
+  geom_sf() +
+  scale_fill_viridis_b(name = NULL,
+                       option = "magma",
+                       labels = scales::label_percent(1)) +
+  theme_void() +
+  labs(title = "Senior (65+) percentage of population",
+       caption = "Source: American Community Survey 2014-2018",
+       fill=NULL )
+```
