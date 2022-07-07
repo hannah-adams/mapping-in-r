@@ -5,7 +5,7 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Racial demographics""
+    - text: "Racial demographics"
       href: county.html
     - text: "Percentage of people who identify with 2+ races"
       href: tworaces.html
