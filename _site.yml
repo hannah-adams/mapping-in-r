@@ -4,7 +4,7 @@ navbar:
   title: "Mapping Demonstration"
   left:
     - text: "Home"
-      href:index.html
+      href: index.html
     - text: "Racial demographics""
       href: county.html
     - text: "Percentage of people who identify with 2+ races"
